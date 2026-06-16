@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduPath — Platform Belajar Online</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ===== LOGIN PAGE ===== -->
+  <div id="page-login" class="page active">
+    <div class="login-split">
+      <div class="login-brand">
+        <div class="brand-logo">EP</div>
+        <h1 class="brand-name">EduPath</h1>
+        <p class="brand-tagline">Belajar lebih pintar,<br>capai lebih jauh.</p>
+        <div class="brand-stats">
+          <div class="stat"><span class="stat-num">12</span><span class="stat-label">Mata Pelajaran</span></div>
+          <div class="stat"><span class="stat-num">48</span><span class="stat-label">Materi</span></div>
+          <div class="stat"><span class="stat-num">240</span><span class="stat-label">Siswa Aktif</span></div>
+        </div>
+      </div>
+      <div class="login-form-wrap">
+        <div class="login-card">
+          <h2>Masuk ke Akun</h2>
+          <p class="login-sub">Selamat datang kembali!</p>
+          <div id="login-error" class="error-msg" style="display:none;"></div>
+          <div class="field">
+            <label for="input-username">Username</label>
+            <input id="input-username" type="text" placeholder="Masukkan username" autocomplete="username"/>
+          </div>
+          <div class="field">
+            <label for="input-password">Password</label>
+            <div class="pw-wrap">
+              <input id="input-password" type="password" placeholder="Masukkan password" autocomplete="current-password"/>
+              <button class="pw-toggle" id="pw-toggle-btn" type="button" aria-label="Tampilkan password">👁</button>
+            </div>
+          </div>
+          <button class="btn-primary full" id="btn-login">Masuk</button>
+          <p class="login-hint">Demo: username <strong>siswa</strong> / password <strong>belajar123</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD PAGE ===== -->
+  <div id="page-dashboard" class="page">
+    <!-- Navbar -->
+    <nav class="navbar" id="main-navbar">
+      <div class="nav-left">
+        <div class="brand-logo sm">EP</div>
+        <span class="nav-brand">EduPath</span>
+      </div>
+      <div class="nav-links">
+        <button class="nav-link active" data-page="home">Beranda</button>
+        <button class="nav-link" data-page="materi">Materi</button>
+        <button class="nav-link" data-page="kuis">Kuis</button>
+        <button class="nav-link" data-page="progress">Progress</button>
+      </div>
+      <div class="nav-right">
+        <div class="notif-btn" id="notif-btn" aria-label="Notifikasi">
+          🔔<span class="notif-badge" id="notif-badge">2</span>
+        </div>
+        <div class="avatar-wrap" id="avatar-btn">
+          <div class="avatar" id="nav-avatar">S</div>
+        </div>
+        <button class="btn-logout" id="btn-logout">Keluar</button>
+      </div>
+    </nav>
+
+    <!-- Sub-pages container -->
+    <main class="main-content">
+
+      <!-- HOME TAB -->
+      <div id="tab-home" class="tab active">
+        <div class="hero-section">
+          <div class="hero-text">
+            <p class="hero-greeting" id="greeting-text">Selamat Pagi,</p>
+            <h2 class="hero-name" id="hero-username">Siswa!</h2>
+            <p class="hero-desc">Lanjutkan perjalanan belajarmu hari ini.</p>
+          </div>
+          <div class="hero-card-wrap">
+            <div class="hero-progress-card">
+              <p class="hpc-label">Progress Keseluruhan</p>
+              <div class="hpc-ring-wrap">
+                <svg class="ring-svg" viewBox="0 0 120 120">
+                  <circle cx="60" cy="60" r="50" class="ring-bg"/>
+                  <circle cx="60" cy="60" r="50" class="ring-fill" id="overall-ring"/>
+                </svg>
+                <span class="ring-pct" id="overall-pct">0%</span>
+              </div>
+              <p class="hpc-sub" id="overall-sub">0 dari 48 materi selesai</p>
+            </div>
+          </div>
+        </div>
+
+        <section class="section">
+          <div class="section-header">
+            <h3>Lanjut Belajar</h3>
+            <button class="btn-text" data-goto="materi">Lihat semua →</button>
+          </div>
+          <div class="cards-row" id="continue-cards"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <h3>Kuis Tersedia</h3>
+            <button class="btn-text" data-goto="kuis">Lihat semua →</button>
+          </div>
+          <div class="cards-row" id="quiz-preview-cards"></div>
+        </section>
+      </div>
+
+      <!-- MATERI TAB -->
+      <div id="tab-materi" class="tab">
+        <div class="tab-header">
+          <h2>Materi Pelajaran</h2>
+          <div class="search-filter">
+            <input type="text" id="materi-search" placeholder="Cari materi..." class="search-input"/>
+            <select id="materi-filter" class="filter-select">
+              <option value="all">Semua Kategori</option>
+              <option value="Matematika">Matematika</option>
+              <option value="Sains">Sains</option>
+              <option value="Bahasa">Bahasa</option>
+              <option value="Teknologi">Teknologi</option>
+            </select>
+          </div>
+        </div>
+        <div class="materi-grid" id="materi-grid"></div>
+      </div>
+
+      <!-- DETAIL MATERI (overlay dalam tab materi) -->
+      <div id="materi-detail" class="materi-detail-overlay" style="display:none;">
+        <button class="back-btn" id="back-from-detail">← Kembali ke Materi</button>
+        <div class="detail-content" id="detail-content-area"></div>
+      </div>
+
+      <!-- KUIS TAB -->
+      <div id="tab-kuis" class="tab">
+        <div class="tab-header">
+          <h2>Kuis</h2>
+        </div>
+        <!-- Quiz List -->
+        <div id="quiz-list-view">
+          <div class="cards-row wrap" id="quiz-list-cards"></div>
+        </div>
+        <!-- Quiz Active -->
+        <div id="quiz-active-view" style="display:none;">
+          <div class="quiz-header-bar">
+            <button id="btn-quit-quiz" class="btn-text">✕ Keluar Kuis</button>
+            <div class="quiz-title-bar" id="quiz-title-bar">Kuis</div>
+            <div class="quiz-timer" id="quiz-timer">⏱ 00:00</div>
+          </div>
+          <div class="quiz-progress-bar-wrap">
+            <div class="quiz-progress-bar" id="quiz-progress-bar"></div>
+          </div>
+          <div class="quiz-body" id="quiz-body"></div>
+          <div class="quiz-nav">
+            <button class="btn-outline" id="btn-prev-q" disabled>← Sebelumnya</button>
+            <span id="quiz-q-counter">1 / 5</span>
+            <button class="btn-primary" id="btn-next-q">Selanjutnya →</button>
+          </div>
+        </div>
+        <!-- Quiz Result -->
+        <div id="quiz-result-view" style="display:none;">
+          <div class="quiz-result-card" id="quiz-result-card"></div>
+        </div>
+      </div>
+
+      <!-- PROGRESS TAB -->
+      <div id="tab-progress" class="tab">
+        <div class="tab-header">
+          <h2>Progress Belajarku</h2>
+        </div>
+        <div class="progress-overview" id="progress-overview"></div>
+        <div class="section">
+          <h3>Riwayat Kuis</h3>
+          <div id="quiz-history-list"></div>
+        </div>
+        <div class="section">
+          <h3>Materi yang Sudah Diselesaikan</h3>
+          <div id="completed-materi-list"></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast-container"></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="auth.js"></script>
+  <script src="materi.js"></script>
+  <script src="kuis.js"></script>
+  <script src="progress.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
